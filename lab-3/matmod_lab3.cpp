@@ -6,7 +6,7 @@
 
 #include "Task_1.h"
 
-#define VARIANT 11
+#define VARIANT 42
 #define SIMPLEX 1
 #define COMMON 0
 
@@ -18,15 +18,19 @@ long double beta, alpha;
 void task3();
 void task4(long long t_start, long long t_steps, long long t_step_len, int alpha_steps);
 void task4_borders(long long t_start, long long t_end, long long t_step_len, int alpha_steps);
+void task4_a_arr(long long t_start, long long t_end, long long t_step_len, std::vector <long double> a_arr);
 void anim(long long t_start, long long t_steps);
 
 int main()
 {
     //task3();
     //task4((long long)1, (long long) (1e6 / 5e2), 5e2, 10);
-    task4_borders((long long)1e6, (long long) 2e6, 1e2, 10);
+    //task4_borders((long long)1, (long long) 1e6, 1e2, 10);
+    std::vector <long double> a_arr = { 0.5, 0.6, 0.7, 0.8, 0.9 };
+    task4_a_arr((long long)1, (long long)1e6, 1e2, a_arr);
     //anim(1, 10000);
 }
+
 
 void task3()
 {
@@ -47,6 +51,21 @@ void task4(long long t_start, long long t_steps, long long t_step_len, int alpha
         long double _alpha = (i + 1.) / alpha_steps;
         std::string name = "./task4/" + std::to_string(i+1);
         do_experiment(_alpha, 0., t_start+t_steps * t_step_len, SIMPLEX, times, name, false);
+    }
+}
+
+
+void task4_a_arr(long long t_start, long long t_end, long long t_step_len, std::vector <long double> a_arr)
+{
+    int t_steps = (int)((t_end - t_start) / t_step_len);
+    std::vector<long long> times(t_steps + 1, 0);
+    for (int i = 0; i < times.size() - 1; i++) {
+        times[i + 1] = t_start + i * t_step_len;
+    }
+    for (int i = 0; i < a_arr.size(); i++) {
+        long double _alpha = a_arr[i];
+        std::string name = "./task4_a_arr/" + std::to_string(i + 1);
+        do_experiment(_alpha, 0., t_end + 1, SIMPLEX, times, name, false);
     }
 }
 
@@ -87,7 +106,7 @@ void do_experiment(long double alpha_in, long double beta_in,
     std::cout << alpha << " " << beta << " " << k << " ";
     std::cout << ((algo_type == COMMON) ? "Common" : "Simplex") << std::endl;
 
-    int n = 100;
+    int n = 250;
     std::vector<std::vector<long double>> checkpoints(2 * times.size() + 2, std::vector<long double>(2 * n + 2));
     std::vector<long double> energy(times.size(), 0);
 
@@ -181,7 +200,7 @@ int old_main()
     // std::cout << std::setprecision (17) << xi << std::endl;
 
     long long k = 1000000; // time
-    int n = 100;
+    int n = 250;
     int algo_type = SIMPLEX;
 
     std::cout << "Enter alpha and beta: ";
