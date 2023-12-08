@@ -5,7 +5,8 @@ import pandas as pd
 import os
 
 DIR = 'C:/Users/Ravil/source/repos/matmod_lab3/matmod_lab3/'
-subdir = 'task5_b_arr/'
+subdir = 'task5_b_arr_2/'
+# subdir = 'task_a_arr/'
 fullpath = DIR+subdir
 
 
